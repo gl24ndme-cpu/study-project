@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Open</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/styles.css">
+
+</head>
+<body>
+    <div class="container">
+        <header class = "header">
+            <nav>
+                <div class="nav-links">
+                    <a href="#" class="nav-links__home nav-link">
+                        <img src="/assets/Name=Home, Filled=No.svg" alt="">
+                        Главная
+                    </a>
+                    <a href="#" class="nav-links__library nav-link"> 
+                        <img src="/assets/Name=Library, Filled=No.svg" alt="">
+                        Библиотека
+                    </a>
+                </div>
+            </nav>
+            <div class="authorize-buttons">
+                <button class="authorize-buttons__authorize"  id="open-login">Авторизация</button>
+                <div class="unauthorize-buttons__authorize" id="un-login"></div>
+            </div>
+        </header>
+        <main class="main">
+            <div class="main-home-page">
+                <div class="welcome-animated">
+                    <div class="welcome-animated-inner"><span>S</span><span>o</span><span>n</span><span>a</span><span>r</span></div>
+                </div>
+            </div>
+            <div class="main-favorite-tracks">
+                
+            </div>
+        </main>
+        <div class="player">
+            <div class="player-controls__play">
+                <button class="player-shuffle"><img src="assets/Name=Shuffle, Filled=No.svg" width="32" height="42" alt=""></button>
+                <button class="player-prev"><img src="assets/Name=Prev, Filled=No.svg" alt=""></button>
+                <button class="player-play" >
+                    <img src="assets/Name=Play, Filled=No.svg" class="button-play" height="42" width="42" alt="">
+                    <img src="assets/Name=Pause, Filled=No.svg" class="button-pause" height="42" width="42" alt=""></button>
+                <button class="player-next"><img src="assets/Name=Next, Filled=No.svg" alt=""></button>
+                <button class="player-loop"><img src="assets/Name=Loop, Filled=No.svg"  width="32" height="42"></button>
+            </div>
+            <div class="current">
+                <div class="current-info__progress">00:00</div>
+                <div class="current-info__slider"> <input type="range" class="current-info__inner" min="0" max="1" step="0.000000000000001"  value="0"> </div>
+                <div class="current-info__duration">00:00</div>
+                 <div class="volume" > 
+                    <img src="assets/Name=Volume, Filled=No.svg" alt="">
+                   <div class="player-volume"> <input type="range" name="volume" class="player-volume__inner" min="0" max="1" step="0.01" value="0.5"></div>
+                </div>  
+                <div class="current-info_track">
+                    <div class="current-image"></div>
+                    <div class="current-group">
+                        <div class="current-info__title">Прикольный трек</div>
+                        <div class="current-info__artist">Прикольный исполнитель</div>
+                    </div>
+                </div>
+            </div>        
+        </div>
+    </div>
+    <div class="authorize-overlay" id="authorize-overlay">
+        <div class="authorize">
+            <div class="authorize_title">Авторизация</div>
+            <input type="text" id="login-input" placeholder="Введите логин">
+            <input type="password" id="password-input" placeholder="Введите пароль">
+            <button id="login-btn" class="authorize-btn">Войти</button>
+        </div>
+  </div>
+    <script src="js/player.js" type="module"></script>
+    <script src="js/pages.js" type="module"></script>
+    <script src="js/auth.js" type="module"></script>
+</body>
+
+
+</html>
