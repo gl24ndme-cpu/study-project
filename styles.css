@@ -76,10 +76,8 @@ body {
 }
 
 .nav-link.on-cooldown {
-
-  pointer-events: none; /* нельзя кликнуть */
+  pointer-events: none;
 }
-
 
 /*--------------------------- Main Content ---------------------------*/
 .main {
@@ -88,71 +86,15 @@ body {
   border: 1px solid var(--bg-color-secondary);
   flex: 1;
   padding: 20px;
+  overflow: hidden;
 }
 
 /*--------------------------- Favorite Tracks ---------------------------*/
 .main-favorite-tracks {
-  padding: 5px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: flex-start;
-  width: fit-content;
-  height: fit-content;
-  transition: transform 0.5s ease, opacity 0.5s ease;
-  transform: translateX(0);
-  opacity: 1;
-}
-
-.main-favorite-tracks.hide {
-  transform: translateX(20px);
-  opacity: 0;
-}
-
-.main-favorite-tracks-logo {
-  position: relative;
-  background-color: var(--main-color);
-  border-radius: var(--border-radius);
-  padding: 10px;
-}
-
-.button {
-  opacity: 0;
-  background-color: #061f0f;
-  border-radius: 50%;
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  transition: opacity 0.2s ease-in-out;
-  width: 40px;
-  height: 40px;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.main-favorite-tracks-logo:hover .button {
-  opacity: 1;
-}
-
-.main-favorite-tracks-title {
-  display: flex;
-  justify-content: space-between;
   width: 100%;
-  color: white;
-  padding: 0 5px;
-  font-size: 110%;
-}
-
-.main-favorite-tracks-title span {
-  color: white;
-}
-
-.main-favorite-tracks-play-button {
-  display: flex;
-  align-items: center;
+  padding: 20px;
+  overflow-y: auto;
+  display: none;
 }
 
 /*--------------------------- Player ---------------------------*/
@@ -200,7 +142,7 @@ body {
   background-color: #fff;
   border-radius: 4px;
   width: 50px;
-  height:50px;
+  height: 50px;
 }
 
 .player-controls__play {
@@ -307,11 +249,6 @@ body {
   transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
-.welcome-animated-inner.hide span {
-  transform: translateX(-40px);
-  opacity: 0;
-}
-
 .welcome-animated span {
   position: relative;
   display: inline-block;
@@ -325,19 +262,9 @@ body {
   text-shadow: 1px 1px 10px var(--bg-slider-color);
 }
 
-.welcome-wrapped {
-  word-spacing: 1px;
-}
-
 .hide-letter {
   transform: translateX(-40px);
   opacity: 0;
-}
-
-/*--------------------------- Pages ---------------------------*/
-.main-search-page,
-.main-favorite-tracks {
-  display: none;
 }
 
 /*--------------------------- Buttons ---------------------------*/
@@ -360,7 +287,7 @@ body {
 .authorize-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -408,183 +335,416 @@ body {
   background: #115228;
 }
 
-/*--------------------------- Favorites Overlay ---------------------------*/
-.favorites-overlay {
+/*--------------------------- Auth Mode Toggle ---------------------------*/
+.auth-mode-toggle {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.auth-mode-btn {
+  flex: 1;
+  padding: 8px;
+  background: #222;
+  border: none;
+  color: var(--text-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.auth-mode-btn:hover {
+  background: #333;
+}
+
+.auth-mode-btn.active {
+  background: var(--main-color);
+  color: white;
+}
+
+.auth-error {
+  display: none;
+  background: rgba(255, 50, 50, 0.2);
+  color: #ff6b6b;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/*--------------------------- Upload Modal ---------------------------*/
+.upload-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(4px);
-  display: none;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 3000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 2000;
 }
 
-.favorites-window {
+.upload-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.upload-modal {
   background: #111;
-  padding: 20px;
   border-radius: 16px;
-  width: 420px;
-  max-height: 70vh;
-  overflow-y: auto;
+  width: 400px;
+  max-width: 90%;
+  overflow: hidden;
 }
 
-.favorite-item {
+.upload-modal__header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  padding: 8px 0;
+  padding: 20px;
   border-bottom: 1px solid #222;
 }
 
-.favorite-item img {
-  width: 50px;
-  height: 50px;
-  border-radius: 6px;
+.upload-modal__header h2 {
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
 }
 
-.close-favorite {
-  margin-top: 15px;
-  width: 100%;
-  padding: 10px;
-  background: #222;
+.upload-modal__close {
+  background: none;
   border: none;
-  color: #fff;
+  color: var(--text-color);
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.upload-modal__close:hover {
+  color: white;
+}
+
+.upload-modal__content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.upload-modal__content input[type="text"] {
+  padding: 12px;
+  background: #222;
+  border: 1px solid #333;
   border-radius: 8px;
+  color: white;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+
+.upload-modal__content input[type="text"]:focus {
+  outline: none;
+  border-color: var(--main-color);
+}
+
+.file-input-wrapper {
+  position: relative;
+}
+
+#track-file {
+  position: absolute;
+}
+
+.file-input-wrapper input[type="file"] {
+
+  width: 100%;
+  height: 100%;
+  opacity: 0;
   cursor: pointer;
 }
-.main-favorite-tracks {
-    width: 100%;
-    padding: 20px;
-    overflow-y: auto;
+
+.file-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #1a1a1a;
+  border: 2px dashed #333;
+  border-radius: 8px;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
+.file-label:hover {
+  border-color: var(--main-color);
+  background: #222;
+}
+
+.upload-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: #1a1a1a;
+  border-radius: 8px;
+}
+
+#progress-bar {
+  height: 6px;
+  background: linear-gradient(90deg, var(--main-color), var(--focus-color));
+  border-radius: 3px;
+  transition: width 0.2s ease;
+  width: 0%;
+}
+
+.upload-progress__text {
+  color: var(--text-color);
+  font-size: 12px;
+  min-width: 40px;
+}
+
+.upload-btn {
+  padding: 12px;
+  background: var(--main-color);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.upload-btn:hover {
+  background: var(--hover-color);
+}
+
+.upload-btn:disabled {
+  background: #333;
+  cursor: not-allowed;
+}
+
+/*--------------------------- Library ---------------------------*/
 .tracks-header {
-    display: grid;
-    grid-template-columns: 50px 1fr 1fr 60px;
-    padding: 10px 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-color);
-    font-size: 14px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 15px;
+}
+
+.library-title {
+  color: white;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.library-hint {
+  color: var(--text-color);
+  font-size: 14px;
+}
+
+.upload-track-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--main-color);
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.upload-track-btn:hover {
+  background: var(--hover-color);
+  transform: scale(1.02);
+}
+
+.upload-track-btn img {
+  filter: brightness(2);
+  width: 16px;
+  height: 16px;
 }
 
 .tracks-list {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .track-row {
-    display: grid;
-    grid-template-columns: 50px 1fr 1fr 60px;
-    align-items: center;
-    padding: 10px 15px;
-    border-radius: 8px;
-    transition: background-color 0.2s ease;
-    cursor: pointer;
+  display: grid;
+  grid-template-columns: 50px 1fr 1fr 60px;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
 }
 
 .track-row:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .track-number {
-    color: var(--text-color);
-    font-size: 16px;
-    text-align: center;
+  color: var(--text-color);
+  font-size: 16px;
+  text-align: center;
 }
 
 .track-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .track-cover {
-    width: 50px;
-    height: 50px;
-    flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
 }
 
 .track-cover img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 4px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
 }
 
 .track-details {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .track-title {
-    color: white;
-    font-size: 16px;
-    font-weight: 500;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .track-artist {
-    color: var(--text-color);
-    font-size: 14px;
+  color: var(--text-color);
+  font-size: 14px;
 }
 
 .track-author {
-    color: var(--text-color);
-    font-size: 16px;
+  color: var(--text-color);
+  font-size: 16px;
 }
 
 .track-duration {
-    color: var(--text-color);
-    font-size: 14px;
-    text-align: right;
+  color: var(--text-color);
+  font-size: 14px;
+  text-align: right;
 }
 
 .track-row.active {
-    background-color: rgba(12, 57, 28, 0.3);
+  background-color: rgba(12, 57, 28, 0.3);
 }
 
-.track-row.active .track-number {
-    color: var(--main-color);
-}
-
+.track-row.active .track-number,
 .track-row.active .track-title {
-    color: var(--main-color);
+  color: var(--main-color);
 }
 
+.track-delete-btn {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.track-row:hover .track-delete-btn {
+  opacity: 0.6;
+}
+
+.track-delete-btn:hover {
+  opacity: 1 !important;
+}
+
+.track-delete-btn img {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0.8);
+}
+
+/*--------------------------- Loader & Empty State ---------------------------*/
+.tracks-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 40px;
+  color: var(--text-color);
+}
+
+.loader-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #333;
+  border-top-color: var(--main-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.tracks-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 60px 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.tracks-empty img {
+  width: 64px;
+  height: 64px;
+  opacity: 0.3;
+}
+
+.tracks-empty p {
+  color: var(--text-color);
+  font-size: 16px;
+}
+
+/*--------------------------- Responsive ---------------------------*/
 @media (max-width: 768px) {
-    .tracks-header {
-        grid-template-columns: 30px 1fr 60px;
-    }
-    
-    .tracks-header__artist {
-        display: none;
-    }
-    
-    .track-row {
-        grid-template-columns: 30px 1fr 60px;
-    }
-    
-    .track-author {
-        display: none;
-    }
-    
-    .track-info {
-        gap: 10px;
-    }
-    
-    .track-cover {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .track-title {
-        font-size: 14px;
-    }
-    
-    .track-artist {
-        font-size: 12px;
-    }
+  .track-row {
+    grid-template-columns: 30px 1fr 60px;
+  }
+
+  .track-author {
+    display: none;
+  }
+
+  .track-info {
+    gap: 10px;
+  }
+
+  .track-cover {
+    width: 40px;
+    height: 40px;
+  }
+
+  .track-title {
+    font-size: 14px;
+  }
+
+  .track-artist {
+    font-size: 12px;
+  }
 }

@@ -1,0 +1,13 @@
+# Firebase configuration with API keys
+firebase-config.js
+
+# Dependencies
+node_modules/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
